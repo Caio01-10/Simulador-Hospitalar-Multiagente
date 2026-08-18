@@ -40,22 +40,22 @@ public class Sketch extends PApplet {
     corMedico     = color(250, 205, 20);  // amarelo
     corGrade      = color(175, 151, 112);
 
-    //carregarMapa(nomeArquivo);
+    carregarMapa(nomeArquivo);
   }
 
   @Override
   public void draw() {
     background(245);
 
-    //desenharCabecalho();
+    desenharCabecalho();
 
     if (!mensagemErro.equals("")) {
-      //desenharErro();
+      desenharErro();
       return;
     }
 
-    //desenharMapa();
-    //desenharLegenda();
-    //desenharInformacaoCelula();
+    desenharMapa();
+    desenharLegenda();
+    desenharInformacaoCelula();
   }
 }
