@@ -5,8 +5,8 @@
 if not exist bin mkdir bin
 
 echo Compilando...
-javac -cp "src;%USERPROFILE%\.m2\repository\com\github\micycle1\processing-core-4\4.5.0\processing-core-4-4.5.0.jar" -d bin src\*.java
+javac -cp "src;%USERPROFILE%\.m2\repository\org\processing\core\4.5.0\core-4.5.0.jar" -d bin src\*.java
 
 echo Executando...
-java -cp "bin;%USERPROFILE%\.m2\repository\com\github\micycle1\processing-core-4\4.5.0\processing-core-4-4.5.0.jar" -ea Sketch
+java -cp "bin;%USERPROFILE%\.m2\repository\org\processing\core\4.5.0\core-4.5.0.jar" -ea Sketch
 pause

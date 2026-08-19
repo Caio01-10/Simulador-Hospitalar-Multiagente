@@ -1,8 +1,9 @@
 import processing.core.PApplet;
-GerenciadorTelas gerenciadorTelas;
-Renderizador renderizador;
 
 public class Sketch extends PApplet {
+  GerenciadorTelas gerenciadorTelas;
+  Renderizador renderizador;
+
   public static void main(String[] args) {
     PApplet.main("Sketch");
   }
@@ -21,7 +22,7 @@ public class Sketch extends PApplet {
 
   String nomeArquivo = "mapa_hospital_professor.txt", mensagemErro = "";
 
-  color corChao, corParede, corGerador, corRemovedor, corTotem, corAssento, corEnfermeiro, corMedico, corGrade;
+  int corChao, corParede, corGerador, corRemovedor, corTotem, corAssento, corEnfermeiro, corMedico, corGrade;
 
   @Override
   public void settings() {
