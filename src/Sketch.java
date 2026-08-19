@@ -8,9 +8,8 @@ public class Sketch extends PApplet {
     PApplet.main("Sketch");
   }
 
-  final int LARGURA_JANELA = 800, ALTURA_JANELA = 600;
-
-  final int MARGEM = 20, ALTURA_CABECALHO = 78, LARGURA_LEGENDA = 250;
+  public static final int LARGURA_JANELA = 800, ALTURA_JANELA = 600;
+  public static final int MARGEM = 20, ALTURA_CABECALHO = 78, LARGURA_LEGENDA = 250;
 
   char[][] mapa;
   int numLinhas;
