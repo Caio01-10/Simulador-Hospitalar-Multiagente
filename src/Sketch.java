@@ -1,15 +1,16 @@
 import processing.core.PApplet;
-GerenciadorTelas gerenciadorTelas;
-Renderizador renderizador;
 
 public class Sketch extends PApplet {
   public static void main(String[] args) {
     PApplet.main("Sketch");
   }
 
-  final int LARGURA_JANELA = 800, ALTURA_JANELA = 600;
+  public static final int LARGURA_JANELA = 800, ALTURA_JANELA = 600;
+  public static final int CENTER[] = new int[] {LARGURA_JANELA/2, ALTURA_JANELA/2};
+  public static final int MARGEM = 20, ALTURA_CABECALHO = 78, LARGURA_LEGENDA = 250;
 
-  final int MARGEM = 20, ALTURA_CABECALHO = 78, LARGURA_LEGENDA = 250;
+  GerenciadorTelas gerenciadorTelas;
+  Renderizador renderizador;
 
   char[][] mapa;
   int numLinhas;
@@ -21,7 +22,7 @@ public class Sketch extends PApplet {
 
   String nomeArquivo = "mapa_hospital_professor.txt", mensagemErro = "";
 
-  color corChao, corParede, corGerador, corRemovedor, corTotem, corAssento, corEnfermeiro, corMedico, corGrade;
+  int corChao, corParede, corGerador, corRemovedor, corTotem, corAssento, corEnfermeiro, corMedico, corGrade;
 
   @Override
   public void settings() {
