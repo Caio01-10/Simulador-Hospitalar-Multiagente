@@ -1,4 +1,6 @@
 import processing.core.PApplet;
+GerenciadorTelas gerenciadorTelas;
+Renderizador renderizador;
 
 public class Sketch extends PApplet {
   public static void main(String[] args) {
@@ -28,6 +30,10 @@ public class Sketch extends PApplet {
 
   @Override
   public void setup() {
+    size(800,650);
+    gerenciadorTelas = new GerenciadorTelas();
+    renderizador = new Renderizador();
+
     surface.setTitle("Visualizador de mapa hospitalar");
 
     corChao       = color(239, 229, 194); // bege
@@ -59,3 +65,4 @@ public class Sketch extends PApplet {
     //desenharInformacaoCelula();
   }
 }
+
