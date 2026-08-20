@@ -32,7 +32,7 @@ public class Sketch extends PApplet {
   public void setup() {
     size(800,650);
     gerenciadorTelas = new GerenciadorTelas();
-    renderizador = new Renderizador();
+    //renderizador = new Renderizador();
 
     surface.setTitle("Visualizador de mapa hospitalar");
 
@@ -51,18 +51,27 @@ public class Sketch extends PApplet {
 
   @Override
   public void draw() {
-    background(245);
+background(20);
 
-    //desenharCabecalho();
+  if (gerenciadorTelas.getEstadoAtual() == EstadoTela.EM_EXECUCAO) {
+    // Chamadas dos métodos da equipe (Ex: grid, pacientes, etc.)
+    // renderizador.renderizarGrid(grid);
+    // renderizador.renderizarAgentes(pacientes);
+    renderizador.renderizarHUD(null);
+  }
 
-    if (!mensagemErro.equals("")) {
-      //desenharErro();
-      return;
-    }
+  /*  Desenha os componentes de telas/menus por cima da simulação
+  gerenciadorTelas.desenhar();
+  }
+  */
+  @Override
+  public void keyPressed() {
+    gerenciadorTelas.tratarTeclado(key);
+  }
 
-    //desenharMapa();
-    //desenharLegenda();
-    //desenharInformacaoCelula();
+  @Override
+  public void mousePressed() {
+    //gerenciadorTelas.tratarCliqueMouse(mouseX, mouseY);
   }
 }
 

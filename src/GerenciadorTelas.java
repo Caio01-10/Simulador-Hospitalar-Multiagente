@@ -1,6 +1,6 @@
 import processing.core.PApplet;
 
-public class GerenciadorTelas {
+class GerenciadorTelas {
     private EstadoTela estadoAtual;
     private String mapaSelecionado;
 
