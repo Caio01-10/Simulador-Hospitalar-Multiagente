@@ -17,6 +17,14 @@ public class NoManchester {
     this.folha = folha;
   }
 
+  public NoManchester(int indiceAtributo, float valorCorte, String operador) {
+    this.(indiceAtributo, valorCorte, operador, null, false);
+  }
+
+  public NoManchester(Cor corResultado) {
+    this.(-1, 0, "", corResultado, true);
+  }
+
   public int getIndiceAtributo() {
     return indiceAtributo;
   }

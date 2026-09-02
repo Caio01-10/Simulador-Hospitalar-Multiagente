@@ -25,15 +25,15 @@ public class ArvoreManchester {
   }
 
   private void construirArvoreEstatica() {
-    vetorArvore[0] = new NoManchester(3, 1, "==", null, false);
-    vetorArvore[1] = new NoManchester(-1, 0, "", Cor.VERMELHA, true);
-    vetorArvore[2] = new NoManchester(0, 92, "<", null, false);
-    vetorArvore[5] = new NoManchester(-1, 0, "", Cor.LARANJA, true);
-    vetorArvore[6] = new NoManchester(2, 8, ">=", null, false);
-    vetorArvore[13] = new NoManchester(-1, 0, "", Cor.AMARELA, true);
-    vetorArvore[14] = new NoManchester(1, 38, ">=", null, false);
-    vetorArvore[29] = new NoManchester(-1, 0, "", Cor.VERDE, true);
-    vetorArvore[30] = new NoManchester(-1, 0, "", Cor.AZUL, true);
+    vetorArvore[0] = new NoManchester(3, 1, "==");
+    vetorArvore[1] = new NoManchester(Cor.VERMELHA);
+    vetorArvore[2] = new NoManchester(0, 92, "<");
+    vetorArvore[5] = new NoManchester(Cor.LARANJA);
+    vetorArvore[6] = new NoManchester(2, 8, ">=");
+    vetorArvore[13] = new NoManchester(Cor.AMARELA);
+    vetorArvore[14] = new NoManchester(1, 38, ">=");
+    vetorArvore[29] = new NoManchester(Cor.VERDE);
+    vetorArvore[30] = new NoManchester(Cor.AZUL);
   }
 
   private boolean avaliarNo(NoManchester no, int[] sinaisVitais) {
