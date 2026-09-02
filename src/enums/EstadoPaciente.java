@@ -1,6 +1,6 @@
-package enumeracao;
+package enums;
 
-enum EstadoPaciente {
+public enum EstadoPaciente {
   NASCENDO,
   INDO_TOTEM,
   ESPERANDO_TRIAGEM,

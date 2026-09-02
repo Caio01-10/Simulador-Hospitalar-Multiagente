@@ -1,3 +1,5 @@
+package app;
+
 import processing.core.PApplet;
 
 public class Sketch extends PApplet {
@@ -30,32 +32,32 @@ public class Sketch extends PApplet {
   public void setup() {
     surface.setTitle("Visualizador de mapa hospitalar");
 
-    corChao       = color(239, 229, 194); // bege
-    corParede     = color(205, 164, 112); // marrom claro
-    corGerador    = color(20, 155, 45);   // verde
-    corRemovedor  = color(225, 45, 55);   // vermelho
-    corTotem      = color(50, 90, 225);   // azul
-    corAssento    = color(115, 62, 31);   // marrom escuro
-    corEnfermeiro = color(35);            // preto
-    corMedico     = color(250, 205, 20);  // amarelo
-    corGrade      = color(175, 151, 112);
+    corChao = color(239, 229, 194); // bege
+    corParede = color(205, 164, 112); // marrom claro
+    corGerador = color(20, 155, 45); // verde
+    corRemovedor = color(225, 45, 55); // vermelho
+    corTotem = color(50, 90, 225); // azul
+    corAssento = color(115, 62, 31); // marrom escuro
+    corEnfermeiro = color(35); // preto
+    corMedico = color(250, 205, 20); // amarelo
+    corGrade = color(175, 151, 112);
 
-    //carregarMapa(nomeArquivo);
+    // carregarMapa(nomeArquivo);
   }
 
   @Override
   public void draw() {
     background(245);
 
-    //desenharCabecalho();
+    // desenharCabecalho();
 
     if (!mensagemErro.equals("")) {
-      //desenharErro();
+      // desenharErro();
       return;
     }
 
-    //desenharMapa();
-    //desenharLegenda();
-    //desenharInformacaoCelula();
+    // desenharMapa();
+    // desenharLegenda();
+    // desenharInformacaoCelula();
   }
 }
