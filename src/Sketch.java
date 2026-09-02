@@ -51,27 +51,20 @@ public class Sketch extends PApplet {
 
   @Override
   public void draw() {
-background(20);
+    background(20);
+    renderizador.renderizarGrid();  
 
-  if (gerenciadorTelas.getEstadoAtual() == EstadoTela.EM_EXECUCAO) {
-    // Chamadas dos métodos da equipe (Ex: grid, pacientes, etc.)
-    // renderizador.renderizarGrid(grid);
-    // renderizador.renderizarAgentes(pacientes);
-    renderizador.renderizarHUD(null);
-  }
+    if (gerenciadorTelas.getEstadoAtual() == EstadoTela.EM_EXECUCAO) {
+      // Chamadas dos métodos da equipe (Ex: grid, pacientes, etc.)
+      // renderizador.renderizarGrid(grid);
+      // renderizador.renderizarAgentes(pacientes);
+      renderizador.renderizarHUD(null);
+    }
 
-  /*  Desenha os componentes de telas/menus por cima da simulação
-  gerenciadorTelas.desenhar();
-  }
-  */
-  @Override
-  public void keyPressed() {
-    gerenciadorTelas.tratarTeclado(key);
+    /*  Desenha os componentes de telas/menus por cima da simulação
+    gerenciadorTelas.desenhar();
+    }
+    */
   }
 
-  @Override
-  public void mousePressed() {
-    //gerenciadorTelas.tratarCliqueMouse(mouseX, mouseY);
-  }
 }
-
