@@ -1,6 +1,6 @@
 public class Bloco {
     int linha, coluna;
-    char tipo; // 'C' = chão, 'P' = parede, 'G' = gerador, 'R' = removedor, 'T' = totem, 'A' = assento, 'E' = enfermeiro, 'M' = médico
+    char tipo; // '.' = chão, '#' = parede, 'G' = gerador, 'R' = removedor, 'T' = totem, 'A' = assento, 'E' = enfermeiro, 'M' = médico
     boolean ocupado;
 
     public Bloco(int linha, int coluna, char tipo) {
@@ -11,7 +11,7 @@ public class Bloco {
     }
 
     boolean isTransitavel() {
-        if (tipo == 'P') return false;
+        if (tipo == '#' || tipo == 'E' || tipo == 'M') return false;
         return ocupado;
     }
 }
