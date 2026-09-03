@@ -1,70 +1,78 @@
 import processing.core.PApplet;
+import processing.core.PImage;
+import processing.core.PFont;
 
 public class Sketch extends PApplet {
-  GerenciadorTelas gerenciadorTelas;
-  Renderizador renderizador;
+    GerenciadorTelas gerenciadorTelas;
+    Renderizador renderizador;
 
-  public static void main(String[] args) {
-    PApplet.main("Sketch");
-  }
 
-  public static final int LARGURA_JANELA = 800, ALTURA_JANELA = 600;
-  public static final int MARGEM = 20, ALTURA_CABECALHO = 78, LARGURA_LEGENDA = 250;
-
-  char[][] mapa;
-  int numLinhas;
-  int numColunas;
-
-  float tamanhoCelula;
-  float origemX;
-  float origemY;
-
-  String nomeArquivo = "mapa_hospital_professor.txt", mensagemErro = "";
-
-  int corChao, corParede, corGerador, corRemovedor, corTotem, corAssento, corEnfermeiro, corMedico, corGrade;
-
-  @Override
-  public void settings() {
-    size(LARGURA_JANELA, ALTURA_JANELA);
-  }
-
-  @Override
-  public void setup() {
-    size(800,650);
-    gerenciadorTelas = new GerenciadorTelas();
-    //renderizador = new Renderizador();
-
-    surface.setTitle("Visualizador de mapa hospitalar");
-
-    corChao       = color(239, 229, 194); // bege
-    corParede     = color(205, 164, 112); // marrom claro
-    corGerador    = color(20, 155, 45);   // verde
-    corRemovedor  = color(225, 45, 55);   // vermelho
-    corTotem      = color(50, 90, 225);   // azul
-    corAssento    = color(115, 62, 31);   // marrom escuro
-    corEnfermeiro = color(35);            // preto
-    corMedico     = color(250, 205, 20);  // amarelo
-    corGrade      = color(175, 151, 112);
-
-    //carregarMapa(nomeArquivo);
-  }
-
-  @Override
-  public void draw() {
-    background(20);
-    renderizador.renderizarGrid();  
-
-    if (gerenciadorTelas.getEstadoAtual() == EstadoTela.EM_EXECUCAO) {
-      // Chamadas dos métodos da equipe (Ex: grid, pacientes, etc.)
-      // renderizador.renderizarGrid(grid);
-      // renderizador.renderizarAgentes(pacientes);
-      renderizador.renderizarHUD(null);
+    public static void main(String[] args) {
+        PApplet.main("Sketch");
     }
 
-    /*  Desenha os componentes de telas/menus por cima da simulação
-    gerenciadorTelas.desenhar();
-    }
-    */
-  }
+    public static final int LARGURA_JANELA = 800, ALTURA_JANELA = 650;
+    public static final int MARGEM = 20, ALTURA_CABECALHO = 78, LARGURA_LEGENDA = 250;
 
+    char[][] mapa;
+    int numLinhas;
+    int numColunas;
+
+    float tamanhoCelula;
+    float origemX;
+    float origemY;
+
+    String nomeArquivo = "mapa_hospital_professor.txt", mensagemErro = "";
+
+    @Override
+    public void settings() {
+        // Define a dimensão da janela no local correto
+        size(LARGURA_JANELA, ALTURA_JANELA);
+    }
+
+    @Override
+    public void setup() {
+        System.out.println("Caminho atual da pasta data: " + dataPath(""));
+        // Inicializa suas classes de controle de tela e renderização
+        gerenciadorTelas = new GerenciadorTelas(this);
+        renderizador = new Renderizador(this);
+
+        surface.setTitle("Visualizador de Mapa Hospitalar");
+        
+        // Ative a leitura do mapa quando a função carregarMapa estiver implementada:
+        // carregarMapa(nomeArquivo);
+    }
+
+    @Override
+    public void draw() {
+        background(20);
+
+        // Se a simulação estiver ativa, desenha a lógica do jogo/grid
+        if (gerenciadorTelas.getEstadoAtual() == EstadoTela.EM_EXECUCAO) {
+            renderizador.renderizarGrid(); // Desenha a malha
+            renderizador.renderizarHUD(null);  // Desenha a barra inferior
+        }
+
+        // Desenha os menus por cima
+        gerenciadorTelas.desenhar(this);
+    }
+
+    @Override
+    public void mousePressed() {
+        // Repassa os cliques para o gerenciador de telas
+        gerenciadorTelas.tratarCliqueMouse(mouseX, mouseY, this);
+    }
+
+    @Override
+    public void keyPressed() {
+        // Se a tecla pressionada for ESC, impede que o Processing feche a janela
+        if (key == ESC) {
+            key = 0; 
+        }
+
+        // Repassa os eventos do teclado para o gerenciador de telas
+        if (gerenciadorTelas != null) {
+            gerenciadorTelas.tratarTeclado(keyCode, key, this);
+        }
+    }
 }
