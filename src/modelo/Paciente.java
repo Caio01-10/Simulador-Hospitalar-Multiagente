@@ -65,7 +65,7 @@ public class Paciente {
     this.destino = destino;
   }
 
-  public void alterarEstado(String estadoAgente) {
+  public void alterarEstado(EstadoPaciente estadoAgente) {
     this.estadoAgente = estadoAgente;
   }
 

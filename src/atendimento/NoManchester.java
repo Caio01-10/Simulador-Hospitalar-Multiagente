@@ -18,11 +18,11 @@ public class NoManchester {
   }
 
   public NoManchester(int indiceAtributo, float valorCorte, String operador) {
-    this.(indiceAtributo, valorCorte, operador, null, false);
+    this(indiceAtributo, valorCorte, operador, null, false);
   }
 
   public NoManchester(Cor corResultado) {
-    this.(-1, 0, "", corResultado, true);
+    this(-1, 0, "", corResultado, true);
   }
 
   public int getIndiceAtributo() {

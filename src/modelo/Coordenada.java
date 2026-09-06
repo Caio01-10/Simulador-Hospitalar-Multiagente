@@ -1,8 +1,8 @@
 package modelo;
 
 public record Coordenada(int linha, int coluna) {
-  @override
+  @Override
   public String toString() {
-    return "(" + linha + ", " + ")";
+    return "(" + linha + ", " + coluna + ")";
   }
 }

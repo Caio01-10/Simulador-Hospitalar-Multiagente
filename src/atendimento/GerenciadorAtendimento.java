@@ -7,14 +7,13 @@ import modelo.Paciente;
 
 public class GerenciadorAtendimento {
   private final FilaPacientes filaTriagemNormal = new FilaPacientes();
-  private final FilaPacientes filaTriagemPrefenrencial = new FilaPacientes();
+  private final FilaPacientes filaTriagemPreferencial = new FilaPacientes();
   private final FilaPacientes[] filasMedicas = new FilaPacientes[5];
   private final ArvoreManchester arvoreManchester = new ArvoreManchester();
   private int preferenciaisConsecutivos;
 
-  public GerenciadorAtendimento(FilaPacientes filaTriagemNormal, FilaPacientes filaTriagemPreferencial,
-      FilaPacientes[] filasMedicas, int preferenciaisConsecutivos) {
-    for (int i = 0; i < filasMedicas.length(); i++)
+  public GerenciadorAtendimento() {
+    for (int i = 0; i < filasMedicas.length; i++)
       filasMedicas[i] = new FilaPacientes();
   }
 
@@ -47,7 +46,7 @@ public class GerenciadorAtendimento {
 
   public void classificarPaciente(Paciente paciente) {
     if(paciente == null) throw new IllegalArgumentException("");
-    paciente.definirCorManchester(arvoreManchester.classificarPaciente(paciente.getSinaisVitais();
+    paciente.definirCorManchester(arvoreManchester.classificarPaciente(paciente.getSinaisVitais()));
   }
 
   public void enfileirarConsulta(Paciente paciente) {
@@ -85,8 +84,8 @@ public class GerenciadorAtendimento {
     for (FilaPacientes fila : filasMedicas) {
       if (!fila.vazia())
         return true;
-      return false;
     }
+    return false;
   }
 
   public ArvoreManchester getArvoreManchester() {

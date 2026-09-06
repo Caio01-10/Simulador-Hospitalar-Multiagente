@@ -10,8 +10,8 @@ public class ArvoreManchester {
     construirArvoreEstatica();
   }
 
-  private Cor classificarPaciente(int[] sinaisVitais) {
-    if (sinaisVitais == null || sinaisVitais.length != 4)
+  public Cor classificarPaciente(int[] sinaisVitais) {
+    if(sinaisVitais == null || sinaisVitais.length != 4)
       throw new IllegalArgumentException("");
     int indice = 0;
     while (true) {
