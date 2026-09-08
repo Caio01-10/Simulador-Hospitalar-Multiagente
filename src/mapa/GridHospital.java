@@ -1,222 +1,177 @@
 package mapa;
+
 import modelo.Coordenada;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import processing.core.PApplet;
 
 public class GridHospital {
     private Bloco[][] grid;
     private int linhas;
     private int colunas;
+    
     private Coordenada gerador;
     private Coordenada removedor;
     private Coordenada totem;
-    private final List<Coordenada> enfermeiros;
-    private final List<Coordenada> medicos;
-    private final List<Coordenada> coordenadasAssentos;
+
+    private Coordenada[] enfermeiros;
+    private Coordenada[] medicos;
+    private Coordenada[] coordenadasAssentos;
     private Assento[] assentos;
 
-    public GridHospital(int linhas, int colunas) {
-        this.linhas = linhas;
-        this.colunas = colunas;
-        grid = new Bloco[linhas][colunas];
-        enfermeiros = new ArrayList<>();
-        medicos = new ArrayList<>();
-        coordenadasAssentos = new ArrayList<>();
-        assentos = new Assento[0];
+    public GridHospital() {
+        this.linhas = 0;
+        this.colunas = 0;
+        this.enfermeiros = new Coordenada[0];
+        this.medicos = new Coordenada[0];
+        this.coordenadasAssentos = new Coordenada[0];
+        this.assentos = new Assento[0];
     }
 
     /**
-     * Carrega um mapa de texto.
-     * Caracteres esperados:
-     * G = gerador
-     * R = removedor
-     * T = totem
-     * A = assento
-     * E = enfermeiro
-     * M = médico
-     * # = parede
-     * . = chão
+     * Carrega o mapa utilizando a função nativa loadStrings do Processing.
      */
-    public boolean carregarDeArquivo(String nomeArquivo) {
-        List<String> linhasArquivo = Files.readAllLines(Path.of(nomeArquivo));
+    public boolean carregarDeArquivo(PApplet app, String caminhoArquivo) {
+        String[] linhasArquivo = app.loadStrings(caminhoArquivo);
 
-        if (linhasArquivo.isEmpty())
-            throw new IllegalArgumentException("Arquivo de mapa vazio.");
-
-        int novaQuantidadeLinhas = linhasArquivo.size();
-        int novaQuantidadeColunas = linhasArquivo.get(0).length();
-
-        if (novaQuantidadeColunas == 0) 
-            throw new IllegalArgumentException("Mapa sem colunas.");
-
-        for (String linha : linhasArquivo) {
-            if (linha.length() != novaQuantidadeColunas) 
-                throw new IllegalArgumentException("Todas as linhas do mapa devem possuir o mesmo tamanho.");
+        if (linhasArquivo == null || linhasArquivo.length < 2) {
+            return false;
         }
 
-        Bloco[][] novoGrid = new Bloco[novaQuantidadeLinhas][novaQuantidadeColunas];
+        // A primeira linha do arquivo é um cabeçalho com as dimensões do mapa,
+        // no formato "numLinhas numColunas" (ex: "24 24"). O grid propriamente
+        // dito começa apenas na linha seguinte.
+        String[] dimensoes = linhasArquivo[0].trim().split("\\s+");
+        if (dimensoes.length != 2) {
+            return false;
+        }
 
-        Coordenada novoGerador = null;
-        Coordenada novoRemovedor = null;
-        Coordenada novoTotem = null;
+        int tempLinhas;
+        int tempColunas;
+        try {
+            tempLinhas = Integer.parseInt(dimensoes[0]);
+            tempColunas = Integer.parseInt(dimensoes[1]);
+        } catch (NumberFormatException e) {
+            return false;
+        }
 
-        List<Coordenada> novosEnfermeiros = new ArrayList<>();
-        List<Coordenada> novosMedicos = new ArrayList<>();
-        List<Coordenada> novosAssentos = new ArrayList<>();
+        if (tempLinhas <= 0 || tempColunas <= 0) {
+            return false;
+        }
 
-        for (int i = 0; i < novaQuantidadeLinhas; i++) {
-            String linha = linhasArquivo.get(i);
-            for (int j = 0; j < novaQuantidadeColunas; j++) {
+        // O restante do arquivo (sem contar o cabeçalho) precisa ter exatamente
+        // 'tempLinhas' linhas, senão o arquivo está mal formatado.
+        if (linhasArquivo.length - 1 != tempLinhas) {
+            return false;
+        }
+
+        Bloco[][] tempGrid = new Bloco[tempLinhas][tempColunas];
+        
+        Coordenada tempGerador = null;
+        Coordenada tempRemovedor = null;
+        Coordenada tempTotem = null;
+
+        // Contadores para dimensionamento estático de vetores
+        int qtdEnfermeiros = 0;
+        int qtdMedicos = 0;
+        int qtdAssentos = 0;
+
+        // Primeira passagem: validação e contagem
+        for (int i = 0; i < tempLinhas; i++) {
+            String linha = linhasArquivo[i + 1].trim(); // +1 para pular o cabeçalho de dimensões
+            if (linha.length() != tempColunas) {
+                return false;
+            }
+
+            for (int j = 0; j < tempColunas; j++) {
                 char tipo = linha.charAt(j);
+                if (!tipoValido(tipo)) return false;
 
-                if (!tipoValido(tipo)) 
-                    throw new IllegalArgumentException("Caractere inválido no mapa: '" + tipo + "' em (" + i + ", " + j + ")");
+                if (tipo == 'E') qtdEnfermeiros++;
+                else if (tipo == 'M') qtdMedicos++;
+                else if (tipo == 'A') qtdAssentos++;
+            }
+        }
 
-                novoGrid[i][j] = new Bloco(i, j, tipo);
-                Coordenada coordenada = new Coordenada(i, j);
+        Coordenada[] tempEnfermeiros = new Coordenada[qtdEnfermeiros];
+        Coordenada[] tempMedicos = new Coordenada[qtdMedicos];
+        Coordenada[] tempCoordenadasAssentos = new Coordenada[qtdAssentos];
+        Assento[] tempAssentos = new Assento[qtdAssentos];
+
+        int idxE = 0, idxM = 0, idxA = 0;
+
+        // Segunda passagem: população de estruturas
+        for (int i = 0; i < tempLinhas; i++) {
+            String linha = linhasArquivo[i + 1].trim(); // +1 para pular o cabeçalho de dimensões
+            for (int j = 0; j < tempColunas; j++) {
+                char tipo = linha.charAt(j);
+                tempGrid[i][j] = new Bloco(i, j, tipo);
+                Coordenada coord = new Coordenada(i, j);
+
                 switch (tipo) {
                     case 'G':
-                        if (novoGerador != null) 
-                            throw new IllegalArgumentException("O mapa possui mais de um gerador.");
-
-                        novoGerador = coordenada;
+                        tempGerador = coord;
                         break;
                     case 'R':
-                        if (novoRemovedor != null) 
-                            throw new IllegalArgumentException("O mapa possui mais de um removedor.");
-
-                        novoRemovedor = coordenada;
+                        tempRemovedor = coord;
                         break;
                     case 'T':
-                        if (novoTotem != null) 
-                            throw new IllegalArgumentException("O mapa possui mais de um totem.");
-
-                        novoTotem = coordenada;
-                        break;
-                    case 'A':
-                        novosAssentos.add(coordenada);
+                        tempTotem = coord;
                         break;
                     case 'E':
-                        novosEnfermeiros.add(coordenada);
+                        tempEnfermeiros[idxE++] = coord;
                         break;
                     case 'M':
-                        novosMedicos.add(coordenada);
+                        tempMedicos[idxM++] = coord;
                         break;
-                    default:
+                    case 'A':
+                        tempCoordenadasAssentos[idxA] = coord;
+                        tempAssentos[idxA] = new Assento();
+                        idxA++;
                         break;
                 }
             }
         }
-        if (novoGerador == null) 
-            throw new IllegalArgumentException("O mapa precisa possuir um gerador.");
 
-        if (novoRemovedor == null) 
-            throw new IllegalArgumentException("O mapa precisa possuir um removedor.");
-        
-        if (novoTotem == null) 
-            throw new IllegalArgumentException("O mapa precisa possuir um totem.");
-        
-        // Só altera o objeto depois que o mapa inteiro foi validado.
-        this.grid = novoGrid;
-        this.linhas = novaQuantidadeLinhas;
-        this.colunas = novaQuantidadeColunas;
-
-        this.gerador = novoGerador;
-        this.removedor = novoRemovedor;
-        this.totem = novoTotem;
-
-        this.enfermeiros.clear();
-        this.enfermeiros.addAll(novosEnfermeiros);
-
-        this.medicos.clear();
-        this.medicos.addAll(novosMedicos);
-
-        this.coordenadasAssentos.clear();
-        this.coordenadasAssentos.addAll(novosAssentos);
-
-        this.assentos = new Assento[novosAssentos.size()];
-
-        for (int i = 0; i < assentos.length; i++) {
-            assentos[i] = new Assento();
+        if (tempGerador == null || tempRemovedor == null || tempTotem == null) {
+            return false;
         }
+
+        // Atribuição ao estado da instância
+        this.grid = tempGrid;
+        this.linhas = tempLinhas;
+        this.colunas = tempColunas;
+        this.gerador = tempGerador;
+        this.removedor = tempRemovedor;
+        this.totem = tempTotem;
+        this.enfermeiros = tempEnfermeiros;
+        this.medicos = tempMedicos;
+        this.coordenadasAssentos = tempCoordenadasAssentos;
+        this.assentos = tempAssentos;
 
         return true;
     }
 
     private boolean tipoValido(char tipo) {
-        return tipo == '.' || tipo == '#' || tipo == 'G' || tipo == 'R' || tipo == 'T' || tipo == 'A' || tipo == 'E' || tipo == 'M';
+        return tipo == '.' || tipo == '#' || tipo == 'G' || tipo == 'R' || 
+               tipo == 'T' || tipo == 'A' || tipo == 'E' || tipo == 'M';
     }
 
     public Bloco getBloco(int linha, int coluna) {
-        if (!coordenadaValida(linha, coluna)) {
-            return null;
-        }
+        if (!coordenadaValida(linha, coluna)) return null;
         return grid[linha][coluna];
-    }
-
-    public Bloco getBloco(Coordenada coordenada) {
-        if (coordenada == null) {
-            return null;
-        }
-        return getBloco(coordenada.linha(), coordenada.coluna());
     }
 
     public boolean coordenadaValida(int linha, int coluna) {
         return linha >= 0 && linha < linhas && coluna >= 0 && coluna < colunas;
     }
 
-    public boolean podeTransitar(int linha, int coluna) {
-        Bloco bloco = getBloco(linha, coluna);
-        return bloco != null && bloco.isTransitavel();
-    }
-
-    public boolean podeTransitar(Coordenada coordenada) {
-        if (coordenada == null) {
-            return false;
-        }
-        return podeTransitar(coordenada.linha(), coordenada.coluna());
-    }
-
-    public int getLinhas() {
-        return linhas;
-    }
-
-    public int getColunas() {
-        return colunas;
-    }
-
-    public Bloco[][] getGrid() {
-        return grid;
-    }
-
-    public Coordenada getGerador() {
-        return gerador;
-    }
-
-    public Coordenada getRemovedor() {
-        return removedor;
-    }
-
-    public Coordenada getTotem() {
-        return totem;
-    }
-
-    public List<Coordenada> getEnfermeiros() {
-        return List.copyOf(enfermeiros);
-    }
-
-    public List<Coordenada> getMedicos() {
-        return List.copyOf(medicos);
-    }
-
-    public List<Coordenada> getCoordenadasAssentos() {
-        return List.copyOf(coordenadasAssentos);
-    }
-
-    public Assento[] getAssentos() {
-        return assentos.clone();
-    }
+    public int getLinhas() { return linhas; }
+    public int getColunas() { return colunas; }
+    public Bloco[][] getGrid() { return grid; }
+    public Coordenada getGerador() { return gerador; }
+    public Coordenada getRemovedor() { return removedor; }
+    public Coordenada getTotem() { return totem; }
+    public Coordenada[] getEnfermeiros() { return enfermeiros; }
+    public Coordenada[] getMedicos() { return medicos; }
+    public Coordenada[] getCoordenadasAssentos() { return coordenadasAssentos; }
+    public Assento[] getAssentos() { return assentos; }
 }

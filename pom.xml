@@ -13,22 +13,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>jitpack.io</id>
-      <url>https://jitpack.io</url>
-    </repository>
-    <repository>
-    <id>jogamp</id>
-    <url>https://jogamp.org/deployment/maven/</url>
-</repository>
-  </repositories>
-
   <dependencies>
+    <!-- Processing Core oficial estável (sem dependência do xml-apis-ext) -->
     <dependency>
-      <groupId>com.github.micycle1</groupId>
-      <artifactId>processing-core-4</artifactId>
-      <version>4.5.0</version>
+      <groupId>org.processing</groupId>
+      <artifactId>core</artifactId>
+      <version>3.3.7</version>
     </dependency>
   </dependencies>
 

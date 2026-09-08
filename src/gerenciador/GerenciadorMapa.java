@@ -8,10 +8,20 @@ public class GerenciadorMapa extends PApplet {
 
     private GridHospital hospital = new GridHospital();
     private RenderizadorMapa renderizador;
-    private String mapaAtual = "mapas/mapa1.txt";
+    private String mapaAtual;
 
     public static void main(String[] args) {
         PApplet.main("gerenciador.GerenciadorMapa");
+    }
+
+    public void setMapaAtual(int opcao){
+        switch (opcao) {
+            case 1: this.mapaAtual = "mapas/mapa1.txt";
+                break;
+            case 2: this.mapaAtual = "mapas/mapa2.txt";
+                break;
+            default: System.err.println("Opção de mapa inválida: " + opcao);
+        }
     }
 
     @Override
@@ -35,24 +45,6 @@ public class GerenciadorMapa extends PApplet {
         if (hospital != null && renderizador != null) {
             renderizador.renderizar(hospital);
         }
-    }
-
-    @Override
-    public void keyPressed() {
-        if (key == '1') {
-            trocarMapa("mapas/mapa1.txt");
-        } else if (key == '2') {
-            trocarMapa("mapas/mapa2.txt");
-        } else if (key == '3') {
-            trocarMapa("mapas/mapa3.txt");
-        }
-    }
-
-    private void trocarMapa(String caminhoRelativo) {
-        carregarMapa(caminhoRelativo);
-        int largura = hospital.getColunas() * RenderizadorMapa.TAMANHO_CELULA;
-        int altura = hospital.getLinhas() * RenderizadorMapa.TAMANHO_CELULA;
-        surface.setSize(largura, altura);
     }
 
    private void carregarMapa(String caminhoRelativo) {

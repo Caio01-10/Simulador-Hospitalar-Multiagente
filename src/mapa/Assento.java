@@ -3,31 +3,52 @@ import modelo.Paciente;
 
 public class Assento {
     private boolean reservado;
+    private boolean ocupado;
     private Paciente ocupante;
 
     public Assento() {
-        reservado = false;
-        ocupante = null;
+        this.reservado = false;
+        this.ocupado = false;
+        this.ocupante = null;
     }
 
     public boolean estaReservado() {
         return reservado;
     }
 
+    public boolean estaOcupado() {
+        return ocupado;
+    }
+
     public Paciente getOcupante() {
         return ocupante;
     }
 
-    public boolean tentaOcupar(Paciente paciente) {
-        if (paciente == null || reservado) 
+    /**
+     * Tenta reservar o assento à distância enquanto o paciente caminha até ele.
+     */
+    public boolean tentarReservar(Paciente paciente) {
+        if (paciente == null || reservado || ocupado) {
             return false;
-        reservado = true;
-        ocupante = paciente;
+        }
+        this.reservado = true;
+        this.ocupante = paciente;
         return true;
     }
 
+    /**
+     * Confirma a ocupação física quando o paciente senta na cadeira.
+     */
+    public void ocupar() {
+        this.ocupado = true;
+    }
+
+    /**
+     * Libera o assento quando o paciente é chamado.
+     */
     public void liberar() {
-        reservado = false;
-        ocupante = null;
+        this.reservado = false;
+        this.ocupado = false;
+        this.ocupante = null;
     }
 }

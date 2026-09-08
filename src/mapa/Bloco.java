@@ -3,7 +3,7 @@ package mapa;
 public class Bloco {
     private final int linha;
     private final int coluna;
-    private final char tipo;  // '.' = chão, '#' = parede, 'G' = gerador, 'R' = removedor, 'T' = totem, 'A' = assento, 'E' = enfermeiro, 'M' = médico
+    private final char tipo;
     private boolean ocupado;
 
     public Bloco(int linha, int coluna, char tipo) {
