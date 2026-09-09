@@ -24,7 +24,8 @@ public class GerenciadorTelas {
 
     // Sinaliza para quem estiver integrando (Sketch/SimuladorEngine) que a opção
     // "Resetar" foi escolhida no menu de pausa. Necessário porque tanto "Continuar"
-    // quanto "Resetar" levam ao mesmo estado EM_EXECUCAO, e sem essa flag não haveria
+    // quanto "Resetar" levam ao mesmo estado EM_EXECUCAO, e sem essa flag não
+    // haveria
     // como distinguir as duas ações a partir de fora desta classe.
     private boolean solicitarReset = false;
 
@@ -354,8 +355,7 @@ public class GerenciadorTelas {
                 else if (opcao == 1) {
                     solicitarReset = true;
                     mudarEstado(EstadoTela.EM_EXECUCAO, 3); // Lógica de Reset
-                }
-                else if (opcao == 2)
+                } else if (opcao == 2)
                     mudarEstado(EstadoTela.MENU_INICIAL, 3);
                 break;
 

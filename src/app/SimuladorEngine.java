@@ -25,7 +25,7 @@ import processing.core.PApplet;
  */
 public class SimuladorEngine {
     // --- Parâmetros fixos exigidos pela especificação ---
-    private static final float MEDIA_SPAWN = 5.0f;
+    private static final float MEDIA_SPAWN = 3.0f;
 
     private static final float MEDIA_TRIAGEM = 6.0f;
     private static final float DESVIO_TRIAGEM = 2.0f;
