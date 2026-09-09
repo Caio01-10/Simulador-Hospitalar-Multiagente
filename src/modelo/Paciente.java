@@ -33,6 +33,10 @@ public class Paciente {
     return senha;
   }
 
+  public boolean getPreferencial() {
+    return preferencial;
+  }
+
   public int[] getSinaisVitais() {
     return sinaisVitais;
   }
@@ -71,9 +75,5 @@ public class Paciente {
 
   public void moverPara(Coordenada posicao) {
     this.posicao = posicao;
-  }
-
-  public boolean isPreferencial() {
-    return preferencial;
   }
 }

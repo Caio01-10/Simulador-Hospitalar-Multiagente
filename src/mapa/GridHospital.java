@@ -148,8 +148,35 @@ public class GridHospital {
         return grid[linha][coluna];
     }
 
+    // Sobrecarga necessária pois GerenciadorMovimento e WavefrontPathfinder
+    // trabalham diretamente com objetos Coordenada.
+    public Bloco getBloco(Coordenada coordenada) {
+        if (coordenada == null) return null;
+        return getBloco(coordenada.linha(), coordenada.coluna());
+    }
+
     public boolean coordenadaValida(int linha, int coluna) {
         return linha >= 0 && linha < linhas && coluna >= 0 && coluna < colunas;
+    }
+
+    public boolean coordenadaValida(Coordenada coordenada) {
+        return coordenada != null && coordenadaValida(coordenada.linha(), coordenada.coluna());
+    }
+
+    /**
+     * Indica se uma célula pode ser fisicamente ocupada por um agente:
+     * precisa existir, não ser parede/posto de Enfermeira/Médico (essas nunca
+     * são pisadas, conforme especificação) e não estar ocupada por outra entidade.
+     */
+    public boolean podeTransitar(int linha, int coluna) {
+        if (!coordenadaValida(linha, coluna)) return false;
+        Bloco bloco = grid[linha][coluna];
+        return bloco != null && bloco.isTransitavel();
+    }
+
+    public boolean podeTransitar(Coordenada coordenada) {
+        if (coordenada == null) return false;
+        return podeTransitar(coordenada.linha(), coordenada.coluna());
     }
 
     public int getLinhas() { return linhas; }

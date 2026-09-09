@@ -1,46 +1,63 @@
 package movimento;
 import modelo.Coordenada;
+import mapa.GridHospital;
+
 public class WavefrontPathfinder {
- public int[][] calcularWavefront(int destinoLinha, int destinoColuna, char[][] mapa){
-  if(mapa == null || mapa.length == 0 || mapa[0].length == 0)throw new IllegalArgumentException("Mapa vazio."); // Montijo trata.
-  int linhas = mapa.length;
-  int colunas = mapa[0].length;
+ private final GridHospital grid;
+
+ public WavefrontPathfinder(GridHospital grid) {
+  if (grid == null) 
+   throw new IllegalArgumentException("Grid não pode ser null.");
+
+  this.grid = grid;
+ }
+ public int[][] calcularWavefront(Coordenada destino) {
+  if (destino == null) 
+   throw new IllegalArgumentException("Destino não pode ser null.");
+
+  int linhas = grid.getLinhas();
+  int colunas = grid.getColunas();
+  if (!grid.podeTransitar(destino)) 
+   throw new IllegalArgumentException("O destino não é uma posição transitável: " + destino);
+
   int[][] distancia = new int[linhas][colunas];
-
-  for(int i = 0; i < linhas; i++){
-   if(mapa[i].length != colunas) throw new IllegalArgumentException("Mapa irregular."); // Montijo trata.
-   for(int j = 0; j < colunas; j++) distancia[i][j] = -1;
-  }
-
-  // "#" representa a parede.
-  if(destinoLinha < 0 || destinoLinha >= linhas || destinoColuna < 0 || destinoColuna >= colunas || mapa[destinoLinha][destinoColuna] == '#') throw new IllegalArgumentException("Destino invalido."); // Tem que tratar.
-  
-  FilaCoordenadas fila = new FilaCoordenadas();
-  // O algoritmo Wavefront começa de trás para frente: do destino para a origem
-  distancia[destinoLinha][destinoColuna] = 0;
-  fila.enfileirar(new Coordenada(destinoLinha, destinoColuna));
-  // Vetores auxiliares para varredura de vizinhos (Cima, Baixo, Esquerda, Direita)
-  int[] moveLinha = {-1,1,0,0};
-  int[] moveColuna = {0,0,-1,1};
-
-  // Processa os pontos enquanto houver posições alcançáveis na fila
-  while(!fila.vazia()){
-   Coordenada atual = fila.desenfileirar();
-
-   // Varre as 4 direções adjacentes do ponto atual
-   for(int k = 0; k < 4; k++){
-    int novaLinha = atual.linha() + moveLinha[k];
-    int novaColuna = atual.coluna() + moveColuna[k];
-    
-    // Valida se o vizinho está nos limites da grade, se não é obstáculo e se ainda não foi visitado
-    if(novaLinha >= 0 && novaLinha < linhas && novaColuna >= 0 && novaColuna < colunas && mapa[novaLinha][novaColuna] != '#' && distancia[novaLinha][novaColuna] == -1){
-     // Define o custo do vizinho como o custo do nó atual + 1 passo
-     distancia[novaLinha][novaColuna] = distancia[atual.linha()][atual.coluna()] + 1;
-     // Adiciona o vizinho na fila para expandir a onda a partir dele
-     fila.enfileirar(new Coordenada(novaLinha, novaColuna));
-    }
+  // Inicialmente nenhuma posição foi visitada.
+  for (int linha = 0; linha < linhas; linha++) {
+   for (int coluna = 0; coluna < colunas; coluna++) {
+    distancia[linha][coluna] = -1;
    }
   }
-  return distancia;
+
+  FilaCoordenadas fila = new FilaCoordenadas();
+  // O Wavefront começa no destino.
+  distancia[destino.linha()][destino.coluna()] = 0;
+  fila.enfileirar(destino);
+  // Cima, baixo, esquerda e direita.
+  int[] deslocamentoLinha = {-1, 1, 0, 0};
+  int[] deslocamentoColuna = {0, 0, -1, 1};
+ 
+  while (!fila.vazia()) {
+   Coordenada atual = fila.desenfileirar();
+   for (int i = 0; i < 4; i++) {
+    int novaLinha = atual.linha() + deslocamentoLinha[i];
+    int novaColuna = atual.coluna() + deslocamentoColuna[i];
+ 
+    Coordenada vizinho = new Coordenada(novaLinha, novaColuna);
+ 
+    if (!estaDentroDoMapa(vizinho)) continue;
+    // O GridHospital decide se é parede, médico, enfermeira etc.
+    if (!grid.podeTransitar(vizinho)) continue;
+    // Se já foi visitado, não precisamos adicioná-lo novamente.
+    if (distancia[novaLinha][novaColuna] != -1) continue;
+ 
+    distancia[novaLinha][novaColuna] = distancia[atual.linha()][atual.coluna()] + 1;
+    fila.enfileirar(vizinho);
+   }
+  }
+ return distancia;
+ }
+
+ private boolean estaDentroDoMapa(Coordenada coordenada) {
+  return coordenada.linha() >= 0 && coordenada.linha() < grid.getLinhas() && coordenada.coluna() >= 0 && coordenada.coluna() < grid.getColunas();
  }
 }

@@ -1,4 +1,4 @@
-package renderizador;
+package renderizadores;
 
 import mapa.GridHospital;
 import mapa.Bloco;
@@ -8,10 +8,10 @@ import processing.core.PImage;
 public class RenderizadorMapa {
     private final PApplet app;
     private final PImage[] sprites;
-    public static final int TAMANHO_CELULA = 25;
+    private static final int TAMANHO_CELULA = 25;
 
     public RenderizadorMapa(PApplet app) {
-        if (app == null) 
+        if (app == null)
             throw new IllegalArgumentException("PApplet não pode ser null.");
 
         this.app = app;
@@ -27,49 +27,53 @@ public class RenderizadorMapa {
         sprites['T'] = app.loadImage("sprites/totem.png");
         sprites['A'] = app.loadImage("sprites/assento.png");
         sprites['E'] = app.loadImage("sprites/enfermeira.png");
-        sprites['M'] = app.loadImage("sprites/doutor.png");
+        sprites['M'] = app.loadImage("sprites/medico.png");
     }
 
+    /**
+     * Desenha todo o hospital.
+     */
     public void renderizar(GridHospital hospital) {
-        if (hospital == null) 
+        if (hospital == null)
             return;
 
         for (int linha = 0; linha < hospital.getLinhas(); linha++) {
             for (int coluna = 0; coluna < hospital.getColunas(); coluna++) {
                 Bloco bloco = hospital.getBloco(linha, coluna);
-                if (bloco != null) {
-                    renderizarBloco(bloco);
-                }
+                if (bloco == null)
+                    continue;
+
+                renderizarBloco(bloco);
             }
         }
     }
 
+    /**
+     * Desenha um bloco individual.
+     */
     public void renderizarBloco(Bloco bloco) {
-        if (bloco == null) 
+        if (bloco == null)
             return;
 
         char tipo = bloco.getTipo();
         float x = bloco.getColuna() * TAMANHO_CELULA;
         float y = bloco.getLinha() * TAMANHO_CELULA;
-        
         desenharSprite(tipo, x, y, TAMANHO_CELULA);
     }
 
     private void desenharSprite(char tipo, float x, float y, float tamanho) {
-        PImage sprite = getSprite(tipo);
-        
-        if (sprite != null) {
+        if (tipo < 0 || tipo >= sprites.length)
+            return;
+
+        PImage sprite = sprites[tipo];
+        if (sprite != null)
             app.image(sprite, x, y, tamanho, tamanho);
-        } else {
-            app.fill(100);
-            app.rect(x, y, tamanho, tamanho);
-        }
     }
 
     public PImage getSprite(char tipo) {
-        if (tipo >= 0 && tipo < sprites.length) {
+        if (tipo >= 0 && tipo < sprites.length)
             return sprites[tipo];
-        }
+
         return null;
     }
 }
