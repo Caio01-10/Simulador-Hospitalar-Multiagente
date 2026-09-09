@@ -8,15 +8,12 @@ O sistema é organizado em módulos responsáveis pelo mapa do hospital, represe
 
 ## 👥 Equipe do Projeto
 
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|        Integrante         |  Usuário GitHub   |                                   Responsabilidade principal                                  |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Pedro Mendes Santana**  | `@Pedro-Santtana` | Algoritmo Wavefront, movimentação dos agentes, fila de coordenadas e gerenciamento do tempo   |
-| **Caio Henrique Macedo**  | `@Caio01-10`      | Interface gráfica, gerenciamento das telas e renderização dos agentes                         |
-| **Davi Campos Montijo**   | `@DaviMontijo`    | Modelagem do mapa, grid hospitalar, renderização do hospital e sistema de senhas              |
-| **Bento Martins Tristão** | `@BentoTristao`   | Lógica de atendimento, paciente, estruturas de dados e classificação de risco Manchester      |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-
+| Integrante | Usuário GitHub | Responsabilidade principal |
+|---|---|---|
+| **Pedro Mendes Santana** | `@Pedro-Santtana` | Algoritmo Wavefront, movimentação dos agentes, fila de coordenadas e gerenciamento do tempo |
+| **Caio Henrique Macedo** | `@Caio01-10` | Interface gráfica, gerenciamento das telas e renderização dos agentes |
+| **Davi Campos Montijo** | `@DaviMontijo` | Modelagem do mapa, grid hospitalar, renderização do hospital e sistema de senhas |
+| **Bento Martins Tristão** | `@BentoTristao` | Lógica de atendimento, paciente, estruturas de dados e classificação de risco Manchester |
 
 ---
 
