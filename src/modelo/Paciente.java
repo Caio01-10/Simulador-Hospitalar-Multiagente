@@ -75,5 +75,5 @@ public class Paciente {
 
   public boolean isPreferencial() {
     return preferencial;
-}
+  }
 }

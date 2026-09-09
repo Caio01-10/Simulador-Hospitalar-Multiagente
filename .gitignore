@@ -1,4 +1,10 @@
 bin/
 target/
+<<<<<<< HEAD
 .gitignore/
 target/
+=======
+.gitignore
+.project
+.classpath
+>>>>>>> estruturasDeDados

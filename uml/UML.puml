@@ -1,0 +1,28 @@
+@startuml
+skinparam classAttributeIconSize 0
+package "Representante 4 - Atendimento" {
+ class Paciente
+ class NoPaciente
+ class ListaEncadeada
+ class FilaPacientes
+ class NoManchester
+ class ArvoreManchester
+ class GerenciadorAtendimento
+}
+package "Representante 1 - Movimento" {
+ class WavefrontPathfinder
+ class FilaCoordenadas
+ class NoCoordenada
+}
+class Coordenada
+ListaEncadeada *-- NoPaciente
+FilaPacientes *-- NoPaciente
+NoPaciente --> Paciente
+Paciente --> Coordenada
+ArvoreManchester *-- NoManchester
+GerenciadorAtendimento --> FilaPacientes
+GerenciadorAtendimento --> ArvoreManchester
+WavefrontPathfinder --> FilaCoordenadas
+FilaCoordenadas *-- NoCoordenada
+NoCoordenada --> Coordenada
+@enduml
