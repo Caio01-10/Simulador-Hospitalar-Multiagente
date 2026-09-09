@@ -1,0 +1,13 @@
+package enums;
+
+public enum EstadoPaciente {
+  NASCENDO,
+  INDO_TOTEM,
+  ESPERANDO_TRIAGEM,
+  INDO_TRIAGEM,
+  EM_TRIAGEM,
+  ESPERANDO_CONSULTA,
+  INDO_CONSULTA,
+  EM_CONSULTA,
+  INDO_REMOVEDOR
+}
