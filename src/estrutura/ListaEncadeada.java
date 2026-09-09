@@ -1,5 +1,4 @@
 package estrutura;
-
 import modelo.Paciente;
 
 public class ListaEncadeada {

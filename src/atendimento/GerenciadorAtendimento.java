@@ -21,7 +21,7 @@ public class GerenciadorAtendimento {
     if (paciente == null)
       throw new IllegalArgumentException("");
     if (paciente.getPreferencial())
-      filaTriagemPrefenrencial.enfileirar(paciente);
+      filaTriagemPreferencial.enfileirar(paciente);
     else
       filaTriagemNormal.enfileirar(paciente);
     paciente.alterarEstado(EstadoPaciente.ESPERANDO_TRIAGEM);
@@ -32,8 +32,8 @@ public class GerenciadorAtendimento {
     if (!filaTriagemNormal.vazia() && preferenciaisConsecutivos >= 2) {
       paciente = filaTriagemNormal.desenfileirar();
       preferenciaisConsecutivos = 0;
-    } else if (!filaTriagemPrefenrencial.vazia()) {
-      paciente = filaTriagemPrefenrencial.desenfileirar();
+    } else if (!filaTriagemPreferencial.vazia()) {
+      paciente = filaTriagemPreferencial.desenfileirar();
       preferenciaisConsecutivos++;
     } else if (!filaTriagemNormal.vazia()) {
       paciente = filaTriagemNormal.desenfileirar();
@@ -45,7 +45,8 @@ public class GerenciadorAtendimento {
   }
 
   public void classificarPaciente(Paciente paciente) {
-    if(paciente == null) throw new IllegalArgumentException("");
+    if (paciente == null)
+      throw new IllegalArgumentException("");
     paciente.definirCorManchester(arvoreManchester.classificarPaciente(paciente.getSinaisVitais()));
   }
 
@@ -64,6 +65,7 @@ public class GerenciadorAtendimento {
         return paciente;
       }
     }
+    return null;
   }
 
   private int indiceDaCor(Cor cor) {
@@ -77,7 +79,7 @@ public class GerenciadorAtendimento {
   }
 
   public boolean temPacientesTriagem() {
-    return (!filaTriagemNormal.vazia() || !filaTriagemPrefenrencial.vazia());
+    return (!filaTriagemNormal.vazia() || !filaTriagemPreferencial.vazia());
   }
 
   public boolean temPacientesConsulta() {
@@ -97,6 +99,6 @@ public class GerenciadorAtendimento {
   }
 
   public FilaPacientes getFilaTriagemPreferencial() {
-    return filaTriagemPrefenrencial;
+    return filaTriagemPreferencial;
   }
 }

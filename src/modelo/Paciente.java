@@ -33,6 +33,10 @@ public class Paciente {
     return senha;
   }
 
+  public boolean getPreferencial() {
+    return preferencial;
+  }
+
   public int[] getSinaisVitais() {
     return sinaisVitais;
   }
