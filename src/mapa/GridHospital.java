@@ -26,9 +26,6 @@ public class GridHospital {
         this.assentos = new Assento[0];
     }
 
-    /**
-     * Carrega o mapa utilizando a função nativa loadStrings do Processing.
-     */
     public boolean carregarDeArquivo(PApplet app, String caminhoArquivo) {
         String[] linhasArquivo = app.loadStrings(caminhoArquivo);
 
@@ -36,9 +33,6 @@ public class GridHospital {
             return false;
         }
 
-        // A primeira linha do arquivo é um cabeçalho com as dimensões do mapa,
-        // no formato "numLinhas numColunas" (ex: "24 24"). O grid propriamente
-        // dito começa apenas na linha seguinte.
         String[] dimensoes = linhasArquivo[0].trim().split("\\s+");
         if (dimensoes.length != 2) {
             return false;
@@ -57,8 +51,6 @@ public class GridHospital {
             return false;
         }
 
-        // O restante do arquivo (sem contar o cabeçalho) precisa ter exatamente
-        // 'tempLinhas' linhas, senão o arquivo está mal formatado.
         if (linhasArquivo.length - 1 != tempLinhas) {
             return false;
         }
@@ -69,14 +61,12 @@ public class GridHospital {
         Coordenada tempRemovedor = null;
         Coordenada tempTotem = null;
 
-        // Contadores para dimensionamento estático de vetores
         int qtdEnfermeiros = 0;
         int qtdMedicos = 0;
         int qtdAssentos = 0;
 
-        // Primeira passagem: validação e contagem
         for (int i = 0; i < tempLinhas; i++) {
-            String linha = linhasArquivo[i + 1].trim(); // +1 para pular o cabeçalho de dimensões
+            String linha = linhasArquivo[i + 1].trim(); 
             if (linha.length() != tempColunas) {
                 return false;
             }
@@ -98,9 +88,8 @@ public class GridHospital {
 
         int idxE = 0, idxM = 0, idxA = 0;
 
-        // Segunda passagem: população de estruturas
         for (int i = 0; i < tempLinhas; i++) {
-            String linha = linhasArquivo[i + 1].trim(); // +1 para pular o cabeçalho de dimensões
+            String linha = linhasArquivo[i + 1].trim(); 
             for (int j = 0; j < tempColunas; j++) {
                 char tipo = linha.charAt(j);
                 tempGrid[i][j] = new Bloco(i, j, tipo);
@@ -135,7 +124,6 @@ public class GridHospital {
             return false;
         }
 
-        // Atribuição ao estado da instância
         this.grid = tempGrid;
         this.linhas = tempLinhas;
         this.colunas = tempColunas;
