@@ -24,9 +24,6 @@ public class Assento {
         return ocupante;
     }
 
-    /**
-     * Tenta reservar o assento à distância enquanto o paciente caminha até ele.
-     */
     public boolean tentarReservar(Paciente paciente) {
         if (paciente == null || reservado || ocupado) {
             return false;
@@ -36,16 +33,10 @@ public class Assento {
         return true;
     }
 
-    /**
-     * Confirma a ocupação física quando o paciente senta na cadeira.
-     */
     public void ocupar() {
         this.ocupado = true;
     }
 
-    /**
-     * Libera o assento quando o paciente é chamado.
-     */
     public void liberar() {
         this.reservado = false;
         this.ocupado = false;
