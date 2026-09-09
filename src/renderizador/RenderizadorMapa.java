@@ -56,13 +56,11 @@ public class RenderizadorMapa {
     }
 
     private void desenharSprite(char tipo, float x, float y, float tamanho) {
-        // Uso direto da sua função getSprite()
         PImage sprite = getSprite(tipo);
         
         if (sprite != null) {
             app.image(sprite, x, y, tamanho, tamanho);
         } else {
-            // Desenho de fallback (retângulo cinza) caso a imagem do sprite falhe ao carregar
             app.fill(100);
             app.rect(x, y, tamanho, tamanho);
         }
